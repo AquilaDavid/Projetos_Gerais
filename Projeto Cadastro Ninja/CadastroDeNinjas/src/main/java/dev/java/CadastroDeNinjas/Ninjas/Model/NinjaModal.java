@@ -1,4 +1,4 @@
-package dev.java.CadastroDeNinjas;
+package dev.java.CadastroDeNinjas.Ninjas;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
