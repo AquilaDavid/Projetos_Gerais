@@ -2,9 +2,10 @@ package dev.java.CadastroDeNinjas.Ninjas.Service;
 
 
 
-
 import org.springframework.stereotype.Service;
 
+import dev.java.CadastroDeNinjas.Ninjas.DTO.NinjaDTO;
+import dev.java.CadastroDeNinjas.Ninjas.DTO.NinjaResponseDTO;
 import dev.java.CadastroDeNinjas.Ninjas.Model.NinjaModel;
 import dev.java.CadastroDeNinjas.Ninjas.Repository.NinjaRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,18 @@ public class NinjaService {
 
     // Metodos CRUD
 
-    public void salvarNinja(NinjaModel ninja){
-        repository.saveAndFlush(ninja);
+    public void salvarNinja(NinjaDTO dto){
+        NinjaModel model = NinjaModel.builder()
+        .nome(dto.getNome())
+        .idade(dto.getIdade())
+        .email(dto.getEmail())
+        .build();
+        repository.saveAndFlush(model);
     }
 
     public NinjaModel BuscarNinja(Long id ){
-        return repository.findById(id).orElseThrow(
-            () -> new RuntimeException("Ninja não encontrado")
-        );
+        NinjaModel model = repository.findById(id).orElseThrow(() -> new RuntimeException("Ninja não encontrado"));
+        return model;
     }
 
     public void deletarNinja(Long id){
@@ -32,13 +37,13 @@ public class NinjaService {
     }
 
 
-    public void atualizarNinja(Long id, NinjaModel ninja){
-       NinjaModel ninjaEntity = BuscarNinja(id);
+    public void atualizarDadosNinja(Long id, NinjaResponseDTO dto){
+       NinjaModel model = repository.findById(id).orElseThrow(() -> new RuntimeException("Não é possivel atualizar os dados de um ninja insistente"));
        NinjaModel ninjaAtualizado = NinjaModel.builder()
-       .id(ninjaEntity.getId())
-       .nome( ninja.getNome() != null ? ninja.getNome() : ninjaEntity.getNome() )
-       .idade(ninja.getIdade() >= 0 ? ninja.getIdade() : ninjaEntity.getIdade())
-       .email(ninja.getEmail() != null ? ninja.getEmail() : ninjaEntity.getEmail())
+       .id(model.getId())
+       .nome( dto.getNome() != null ? dto.getNome() : model.getNome() )
+       .idade(dto.getIdade() >= 0 ? dto.getIdade() : model.getIdade())
+       .email(dto.getEmail() != null ? dto.getEmail() : model.getEmail())
        .build();
 
        repository.saveAndFlush(ninjaAtualizado);

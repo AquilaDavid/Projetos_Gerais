@@ -3,10 +3,12 @@ package dev.java.CadastroDeNinjas.Ninjas.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import dev.java.CadastroDeNinjas.Ninjas.DTO.NinjaDTO;
+import dev.java.CadastroDeNinjas.Ninjas.DTO.NinjaResponseDTO;
 import dev.java.CadastroDeNinjas.Ninjas.Model.NinjaModel;
 import dev.java.CadastroDeNinjas.Ninjas.Service.NinjaService;
 import lombok.RequiredArgsConstructor;
@@ -30,26 +32,31 @@ public class Controller {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarNinja(@RequestBody NinjaModel ninja){
-        ninjaService.salvarNinja(ninja);
+    public ResponseEntity<Void> salvarNinja(@RequestBody NinjaDTO dto){
+        ninjaService.salvarNinja(dto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<NinjaModel> BuscarNinja(@RequestParam Long id){
-       return ResponseEntity.ok(ninjaService.BuscarNinja(id));
+    public ResponseEntity<NinjaResponseDTO> BuscarNinja(@RequestParam Long id){
+        NinjaModel model = ninjaService.BuscarNinja(id);
+        NinjaResponseDTO response = new NinjaResponseDTO(
+            model.getNome(),
+            model.getEmail()
+        );
+       return ResponseEntity.ok(response);
     }
 
     
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarNinja(@PathVariable Long id, @RequestBody NinjaModel ninja) {
-        ninjaService.atualizarNinja(id, ninja);
+    @PutMapping 
+    public ResponseEntity<Void> atualizarNinja(  Long id, @RequestBody NinjaResponseDTO ninja) {
+        ninjaService.atualizarDadosNinja(id, ninja);
         return ResponseEntity.ok().build();
     }
 
   
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarNinja(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<Void> deletarNinja( Long id) {
         ninjaService.deletarNinja(id);
         return ResponseEntity.noContent().build();
     }
