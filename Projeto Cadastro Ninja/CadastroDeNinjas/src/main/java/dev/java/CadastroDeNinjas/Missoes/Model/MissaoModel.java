@@ -1,6 +1,7 @@
 package dev.java.CadastroDeNinjas.Missoes.Model;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,10 +22,13 @@ import lombok.NoArgsConstructor;
 public class MissaoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long Id;
+    private long id;
 
+    @Column( name = "Nome da Missão")
     private String nome;
+    @Column(name = "Nivel da Missão")
     private int classificacao;
+    @Column(name = "Concluida")
     private boolean concluida;   
     
     
