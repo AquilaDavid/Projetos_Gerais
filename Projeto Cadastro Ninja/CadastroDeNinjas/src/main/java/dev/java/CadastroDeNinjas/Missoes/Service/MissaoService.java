@@ -6,10 +6,9 @@ import dev.java.CadastroDeNinjas.Missoes.DTO.MissaoDTO;
 import dev.java.CadastroDeNinjas.Missoes.DTO.MissaoResponseveDTO;
 import dev.java.CadastroDeNinjas.Missoes.Model.MissaoModel;
 import dev.java.CadastroDeNinjas.Missoes.Repository.MissaoRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-@Builder
+
 @RequiredArgsConstructor
 @Service
 
